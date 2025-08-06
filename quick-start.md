@@ -2,12 +2,36 @@
 
 ## 🚀 一分钟快速体验
 
-### 步骤 1: 安装依赖
+### 步骤 1: 安装 PushPlus MCP Server
+
+#### 方式一：从 NPM 安装（推荐）
+
 ```bash
+npm install -g @perk-net/pushplus-mcp-server
+```
+
+#### 方式二：从源码构建
+
+```bash
+# 克隆项目
+git clone https://github.com/your-org/pushplus-mcp
+cd pushplus-mcp
+
+# 安装依赖
 npm install
 ```
 
 ### 步骤 2: 配置环境
+
+#### 对于 NPM 安装的用户：
+
+```bash
+# 设置环境变量
+export PUSHPLUS_TOKEN=your_token_here
+```
+
+#### 对于源码构建的用户：
+
 ```bash
 # 复制环境变量模板
 copy env.example .env
@@ -21,12 +45,22 @@ copy env.example .env
 > 2. 微信扫码登录
 > 3. 在用户中心获取 Token
 
-### 步骤 3: 构建项目
+### 步骤 3: 构建项目（仅源码构建需要）
+
 ```bash
 npm run build
 ```
 
 ### 步骤 4: 测试配置
+
+#### 对于 NPM 安装的用户：
+
+```bash
+pushplus-mcp --test
+```
+
+#### 对于源码构建的用户：
+
 ```bash
 npm run test
 ```
@@ -37,6 +71,23 @@ npm run test
 
 1. 打开 Claude Desktop 设置 → Developer → Edit Config
 2. 添加以下配置：
+
+#### 对于 NPM 安装的用户（推荐）：
+
+```json
+{
+  "mcpServers": {
+    "pushplus": {
+      "command": "pushplus-mcp",
+      "env": {
+        "PUSHPLUS_TOKEN": "您的Token"
+      }
+    }
+  }
+}
+```
+
+#### 对于源码构建的用户：
 
 ```json
 {
@@ -76,6 +127,27 @@ npm run test
 
 ## 🔧 常用命令
 
+### 对于 NPM 安装的用户：
+
+```bash
+# 查看帮助
+pushplus-mcp --help
+
+# 查看版本
+pushplus-mcp --version
+
+# 测试配置
+pushplus-mcp --test
+
+# 查看当前配置
+pushplus-mcp --config
+
+# 启动服务器
+pushplus-mcp
+```
+
+### 对于源码构建的用户：
+
 ```bash
 # 查看帮助
 node dist/index.js --help
@@ -84,7 +156,7 @@ node dist/index.js --help
 node dist/index.js --version
 
 # 测试配置
-node dist/index.js --test
+npm run test
 
 # 查看当前配置
 node dist/index.js --config

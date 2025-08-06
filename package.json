@@ -1,7 +1,7 @@
 {
-  "name": "pushplus-mcp-server",
+  "name": "@perk-net/pushplus-mcp-server",
   "version": "1.0.0",
-  "description": "PushPlus MCP Server - 通过 Model Context Protocol 提供 PushPlus 推送消息功能",
+  "description": "PushPlus MCP Server - 通过 Model Context Protocol 提供 PushPlus 推送消息功能，支持微信、邮箱等多渠道推送",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
@@ -28,7 +28,11 @@
     "notification",
     "message",
     "model-context-protocol",
-    "typescript"
+    "typescript",
+    "claude",
+    "ai",
+    "wechat",
+    "email"
   ],
   "author": "Developer",
   "license": "MIT",
