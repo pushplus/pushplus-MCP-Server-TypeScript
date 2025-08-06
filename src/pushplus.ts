@@ -82,7 +82,7 @@ export class PushPlusClient {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'PushPlus-MCP-Server/1.0.0'
+          'User-Agent': 'PushPlus-MCP-Server/1.0.1'
         },
         body: JSON.stringify(validatedPayload)
       });
@@ -122,7 +122,7 @@ export class PushPlusClient {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'PushPlus-MCP-Server/1.0.0'
+          'User-Agent': 'PushPlus-MCP-Server/1.0.1'
         },
         body: JSON.stringify(payload)
       });

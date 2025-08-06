@@ -13,7 +13,7 @@ export const ConfigSchema = z.object({
   
   // MCP服务器配置
   mcpServerName: z.string().default('pushplus-mcp-server'),
-  mcpServerVersion: z.string().default('1.0.0'),
+  mcpServerVersion: z.string().default('1.0.1'),
   
   // 默认配置
   defaultTemplate: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).default('html'),
@@ -62,7 +62,7 @@ export class ConfigManager {
     const envConfig = {
       pushplusToken: process.env.PUSHPLUS_TOKEN || '',
       mcpServerName: process.env.MCP_SERVER_NAME || 'pushplus-mcp-server',
-      mcpServerVersion: process.env.MCP_SERVER_VERSION || '1.0.0',
+      mcpServerVersion: process.env.MCP_SERVER_VERSION || '1.0.1',
       defaultTemplate: process.env.DEFAULT_TEMPLATE || 'html',
       defaultChannel: process.env.DEFAULT_CHANNEL || 'wechat',
       debug: process.env.DEBUG === 'true' || process.env.NODE_ENV === 'development'

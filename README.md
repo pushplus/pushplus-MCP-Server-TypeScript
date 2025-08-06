@@ -373,7 +373,7 @@ npm run watch
 |--------|------|--------|------|
 | `PUSHPLUS_TOKEN` | PushPlus API Token | - | ✅ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.0 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.1 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |

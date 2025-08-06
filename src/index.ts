@@ -30,7 +30,7 @@ function showHelp(): void {
 
   PUSHPLUS_TOKEN         PushPlus API Token (必需)
   MCP_SERVER_NAME        MCP 服务器名称 (默认: pushplus-mcp-server)
-  MCP_SERVER_VERSION     MCP 服务器版本 (默认: 1.0.0)
+  MCP_SERVER_VERSION     MCP 服务器版本 (默认: 1.0.1)
   DEFAULT_TEMPLATE       默认消息模板 (默认: html)
   DEFAULT_CHANNEL        默认推送渠道 (默认: wechat)
   DEBUG                  调试模式 (默认: false)
@@ -55,7 +55,7 @@ function showHelp(): void {
  * 显示版本信息
  */
 function showVersion(): void {
-  const version = process.env.MCP_SERVER_VERSION || '1.0.0';
+  const version = process.env.MCP_SERVER_VERSION || '1.0.1';
   console.log(`PushPlus MCP Server v${version}`);
 }
 
