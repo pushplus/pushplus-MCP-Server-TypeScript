@@ -1,0 +1,55 @@
+{
+  "name": "pushplus-mcp-server",
+  "version": "1.0.0",
+  "description": "PushPlus MCP Server - 通过 Model Context Protocol 提供 PushPlus 推送消息功能",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "pushplus-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "dev": "npm run build && npm start",
+    "clean": "rmdir /s /q dist 2>nul || echo \"Directory cleaned\"",
+    "rebuild": "npm run clean && npm run build",
+    "test": "echo \"Testing PushPlus MCP Server...\" && node dist/index.js --test"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "pushplus",
+    "push",
+    "notification",
+    "message",
+    "model-context-protocol",
+    "typescript"
+  ],
+  "author": "Developer",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pushplus/pushplus-MCP-Server-TypeScript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pushplus/pushplus-MCP-Server-TypeScript/issues"
+  },
+  "homepage": "https://github.com/pushplus/pushplus-MCP-Server-TypeScript#readme"
+}
