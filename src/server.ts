@@ -75,12 +75,24 @@ export class PushPlusMcpServer {
           });
 
           const success = result.code === 200;
-          const statusText = success ? '✅ 请求成功' : '❌ 请求失败';
+          const statusText = success ? '✅ HTTP请求成功' : '❌ HTTP请求失败';
+          
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+          
+          if (result.data) {
+            responseText += `\n- 📋 流水号: ${result.data} （重要！可用于查询消息发送状态）`;
+          }
+          
+          responseText += `\n- 计数: ${result.count || 0}`;
+          
+          if (success) {
+            responseText += '\n\n⚠️ 注意：HTTP请求成功不代表消息已送达，实际发送可能需要一些时间。';
+          }
           
           return {
             content: [{
               type: 'text',
-              text: `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}\n- 数据: ${result.data || '无'}\n- 计数: ${result.count || 0}`
+              text: responseText
             }]
           };
         } catch (error) {
@@ -114,12 +126,24 @@ export class PushPlusMcpServer {
           const result = await this.pushPlusClient.sendTextMessage(title, content, { topic, to, pre });
           
           const success = result.code === 200;
-          const statusText = success ? '✅ 文本消息请求成功' : '❌ 文本消息请求失败';
+          const statusText = success ? '✅ 文本消息HTTP请求成功' : '❌ 文本消息HTTP请求失败';
+          
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+          
+          if (result.data) {
+            responseText += `\n- 📋 流水号: ${result.data} （重要！可用于查询消息发送状态）`;
+          }
+          
+          responseText += `\n- 计数: ${result.count || 0}`;
+          
+          if (success) {
+            responseText += '\n\n⚠️ 注意：HTTP请求成功不代表消息已送达，实际发送可能需要一些时间。';
+          }
           
           return {
             content: [{
               type: 'text',
-              text: `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`
+              text: responseText
             }]
           };
         } catch (error) {
@@ -153,12 +177,24 @@ export class PushPlusMcpServer {
           const result = await this.pushPlusClient.sendHtmlMessage(title, content, { topic, to, pre });
           
           const success = result.code === 200;
-          const statusText = success ? '✅ HTML消息请求成功' : '❌ HTML消息请求失败';
+          const statusText = success ? '✅ HTML消息HTTP请求成功' : '❌ HTML消息HTTP请求失败';
+          
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+          
+          if (result.data) {
+            responseText += `\n- 📋 流水号: ${result.data} （重要！可用于查询消息发送状态）`;
+          }
+          
+          responseText += `\n- 计数: ${result.count || 0}`;
+          
+          if (success) {
+            responseText += '\n\n⚠️ 注意：HTTP请求成功不代表消息已送达，实际发送可能需要一些时间。';
+          }
           
           return {
             content: [{
               type: 'text',
-              text: `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`
+              text: responseText
             }]
           };
         } catch (error) {
@@ -192,12 +228,24 @@ export class PushPlusMcpServer {
           const result = await this.pushPlusClient.sendMarkdownMessage(title, content, { topic, to, pre });
           
           const success = result.code === 200;
-          const statusText = success ? '✅ Markdown消息请求成功' : '❌ Markdown消息请求失败';
+          const statusText = success ? '✅ Markdown消息HTTP请求成功' : '❌ Markdown消息HTTP请求失败';
+          
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+          
+          if (result.data) {
+            responseText += `\n- 📋 流水号: ${result.data} （重要！可用于查询消息发送状态）`;
+          }
+          
+          responseText += `\n- 计数: ${result.count || 0}`;
+          
+          if (success) {
+            responseText += '\n\n⚠️ 注意：HTTP请求成功不代表消息已送达，实际发送可能需要一些时间。';
+          }
           
           return {
             content: [{
               type: 'text',
-              text: `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`
+              text: responseText
             }]
           };
         } catch (error) {
@@ -231,12 +279,24 @@ export class PushPlusMcpServer {
           const result = await this.pushPlusClient.sendJsonMessage(title, content, { topic, to, pre });
           
           const success = result.code === 200;
-          const statusText = success ? '✅ JSON消息请求成功' : '❌ JSON消息请求失败';
+          const statusText = success ? '✅ JSON消息HTTP请求成功' : '❌ JSON消息HTTP请求失败';
+          
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+          
+          if (result.data) {
+            responseText += `\n- 📋 流水号: ${result.data} （重要！可用于查询消息发送状态）`;
+          }
+          
+          responseText += `\n- 计数: ${result.count || 0}`;
+          
+          if (success) {
+            responseText += '\n\n⚠️ 注意：HTTP请求成功不代表消息已送达，实际发送可能需要一些时间。';
+          }
           
           return {
             content: [{
               type: 'text',
-              text: `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`
+              text: responseText
             }]
           };
         } catch (error) {
