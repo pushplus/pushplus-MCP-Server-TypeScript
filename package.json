@@ -1,6 +1,6 @@
 {
   "name": "@perk-net/pushplus-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "PushPlus MCP Server - 通过 Model Context Protocol 提供 PushPlus 推送消息功能，支持微信、邮箱等多渠道推送",
   "type": "module",
   "main": "./dist/index.js",
