@@ -9,8 +9,6 @@
 
 - [功能特性](#功能特性)
 - [🚀 快速开始](#-快速开始)
-- [🔧 安装方式](#-安装方式)
-- [⚙️ Claude Desktop 集成](#️-claude-desktop-集成)
 - [📱 功能使用](#-功能使用)
 - [🛠️ 命令行工具](#️-命令行工具)
 - [📖 使用示例](#-使用示例)
@@ -28,87 +26,6 @@
 - 🧪 **测试友好**: 内置配置测试和消息发送测试
 
 ## 🚀 快速开始
-
-### 第一步：安装
-
-```bash
-# 从 NPM 安装（推荐）
-npm install -g @perk-net/pushplus-mcp-server
-```
-
-### 第二步：获取 PushPlus Token
-
-1. 访问 [PushPlus 官网](https://www.pushplus.plus/)
-2. 微信扫码登录
-3. 在个人中心获取您的 Token
-
-### 第三步：测试配置
-
-```bash
-# 设置环境变量
-export PUSHPLUS_TOKEN=your_pushplus_token_here
-
-# 测试配置
-pushplus-mcp --test
-```
-
-如果配置正确，您会收到一条测试推送消息！
-
-### 第四步：集成到 Claude Desktop
-
-1. 打开 Claude Desktop 设置 → Developer → Edit Config
-2. 添加配置（根据您的操作系统选择）：
-
-**Windows 用户**：
-```json
-{
-  "mcpServers": {
-    "pushplus": {
-      "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "@perk-net/pushplus-mcp-server"
-      ],
-      "env": {
-        "PUSHPLUS_TOKEN": "您的Token"
-      }
-    }
-  }
-}
-```
-
-**Mac/Linux 用户**：
-```json
-{
-  "mcpServers": {
-    "pushplus": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@perk-net/pushplus-mcp-server"
-      ],
-      "env": {
-        "PUSHPLUS_TOKEN": "您的Token"
-      }
-    }
-  }
-}
-```
-
-3. 重启 Claude Desktop
-
-### 第五步：开始使用！
-
-在 Claude 中说：
-```
-"请发送一条测试推送消息到我的微信"
-```
-
-🎉 恭喜！您已成功设置 PushPlus MCP Server！
-
-## 🔧 安装方式
 
 ### 方式一：从 NPM 安装（推荐）
 
@@ -148,14 +65,30 @@ npm run test
 - 🔧 参与项目开发
 - 📊 需要调试详细日志
 
-## ⚙️ Claude Desktop 集成
+### 获取 PushPlus Token
 
-### NPM 安装用户配置
+1. 访问 [PushPlus 官网](https://www.pushplus.plus/)
+2. 微信扫码登录
+3. 在个人中心获取您的 Token
 
-根据您的操作系统选择对应的配置：
+### 测试配置
 
-#### Windows 配置
+```bash
+# 设置环境变量
+export PUSHPLUS_TOKEN=your_pushplus_token_here
 
+# 测试配置
+pushplus-mcp --test
+```
+
+如果配置正确，您会收到一条测试推送消息！
+
+### 集成到 Claude Desktop
+
+1. 打开 Claude Desktop 设置 → Developer → Edit Config
+2. 添加配置（根据您的操作系统选择）：
+
+**NPM 安装用户 - Windows**：
 ```json
 {
   "mcpServers": {
@@ -168,15 +101,14 @@ npm run test
         "@perk-net/pushplus-mcp-server"
       ],
       "env": {
-        "PUSHPLUS_TOKEN": "your_pushplus_token_here"
+        "PUSHPLUS_TOKEN": "您的Token"
       }
     }
   }
 }
 ```
 
-#### Mac/Linux 配置
-
+**NPM 安装用户 - Mac/Linux**：
 ```json
 {
   "mcpServers": {
@@ -187,15 +119,14 @@ npm run test
         "@perk-net/pushplus-mcp-server"
       ],
       "env": {
-        "PUSHPLUS_TOKEN": "your_pushplus_token_here"
+        "PUSHPLUS_TOKEN": "您的Token"
       }
     }
   }
 }
 ```
 
-### 源码构建用户配置
-
+**源码构建用户**：
 ```json
 {
   "mcpServers": {
@@ -203,17 +134,27 @@ npm run test
       "command": "node",
       "args": ["/path/to/pushplus-mcp-server/dist/index.js"],
       "env": {
-        "PUSHPLUS_TOKEN": "your_pushplus_token_here"
+        "PUSHPLUS_TOKEN": "您的Token"
       }
     }
   }
 }
 ```
 
-### 配置文件位置
-
+**配置文件位置**：
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+3. 重启 Claude Desktop
+
+### 开始使用！
+
+在 Claude 中说：
+```
+"请发送一条测试推送消息到我的微信"
+```
+
+🎉 恭喜！您已成功设置 PushPlus MCP Server！
 
 > 📝 **配置说明**：当您在 Claude Desktop 配置中设置了 `env.PUSHPLUS_TOKEN` 后，就不需要创建 `.env` 文件了。MCP 服务器会自动读取通过 Claude Desktop 传递的环境变量。
 
