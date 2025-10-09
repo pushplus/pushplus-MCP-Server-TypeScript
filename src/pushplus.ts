@@ -22,7 +22,7 @@ export const PushMessageSchema = z.object({
   content: z.string().describe('具体消息内容，根据template参数进行渲染'),
   topic: z.string().optional().describe('群组编码，不填仅发送给自己'),
   template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).default('html').describe('发送消息模板'),
-  channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms']).default('wechat').describe('发送渠道'),
+  channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'extension']).default('wechat').describe('发送渠道'),
   to: z.string().optional().describe('好友令牌，微信公众号渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开，实名用户最多10人，会员100人'),
   pre: z.string().optional().describe('预处理编码，仅供会员使用。可提前自定义代码来修改消息内容'),
   webhook: z.string().url().optional().describe('第三方webhook地址'),
