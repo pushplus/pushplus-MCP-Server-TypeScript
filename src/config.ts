@@ -17,7 +17,7 @@ export const ConfigSchema = z.object({
   
   // 默认配置
   defaultTemplate: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).default('html'),
-  defaultChannel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'extension']).default('wechat'),
+  defaultChannel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension']).default('wechat'),
   
   // 调试配置
   debug: z.boolean().default(false)
