@@ -6,7 +6,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
-import { PushPlusClient, PushMessageSchema } from './pushplus.js';
+import { PushPlusClient, PushMessageSchema, BatchSendChannelResult } from './pushplus.js';
 import { getConfig } from './config.js';
 
 /**
@@ -52,7 +52,7 @@ export class PushPlusMcpServer {
           title: z.string().max(100, '消息标题最大长度100字符').describe('消息标题'),
           content: z.string().describe('消息内容，支持HTML、文本、Markdown等格式'),
           template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).optional().describe('消息模板类型'),
-          channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension']).optional().describe('推送渠道'),
+          channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension', 'app']).optional().describe('推送渠道'),
           topic: z.string().optional().describe('群组编码，不填仅发送给自己'),
           to: z.string().optional().describe('好友令牌，微信公众号渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开'),
           pre: z.string().optional().describe('预处理编码，仅供会员使用。可提前自定义代码来修改消息内容'),
@@ -310,6 +310,81 @@ export class PushPlusMcpServer {
         }
       }
     );
+
+    // 多渠道批量发送消息工具
+    this.server.registerTool(
+      'batch_send_message',
+      {
+        title: '多渠道批量发送消息',
+        description: '通过 PushPlus 同时向多个渠道发送推送消息，支持 wechat、webhook、cp、mail、sms、voice、extension、app 等渠道，多个渠道用逗号隔开',
+        inputSchema: {
+          content: z.string().describe('具体消息内容，根据不同template支持不同格式'),
+          channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开。如："wechat,webhook,extension"'),
+          title: z.string().max(100, '消息标题最大长度100字符').optional().describe('消息标题'),
+          option: z.string().optional().describe('渠道配置参数(原webhook参数)，多个渠道的时候用逗号隔开，一一对应发送渠道。如：",config1,"'),
+          topic: z.string().optional().describe('群组编码，不填仅发送给自己；channel为webhook时无效'),
+          template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).optional().describe('发送模板'),
+          callbackUrl: z.string().optional().describe('发送结果回调地址'),
+          timestamp: z.number().optional().describe('毫秒时间戳。服务器时间戳大于此时间戳，则消息不会发送'),
+          to: z.string().optional().describe('好友令牌，多人用逗号隔开，实名用户最多10人，会员100人'),
+          pre: z.string().optional().describe('预处理编码，仅供会员使用')
+        }
+      },
+      async ({ content, channel, title, option, topic, template, callbackUrl, timestamp, to, pre }) => {
+        try {
+          const result = await this.pushPlusClient.batchSendMessage({
+            content,
+            channel: channel || this.config.getDefaultChannel(),
+            title,
+            option,
+            topic,
+            template: (template as any) || this.config.getDefaultTemplate(),
+            callbackUrl,
+            timestamp,
+            to,
+            pre
+          });
+
+          const success = result.code === 200;
+          const statusText = success ? '✅ 多渠道发送HTTP请求成功' : '❌ 多渠道发送HTTP请求失败';
+
+          let responseText = `${statusText}\n\n📊 响应详情:\n- 状态码: ${result.code}\n- 消息: ${result.msg}`;
+
+          if (result.data && Array.isArray(result.data)) {
+            responseText += `\n\n📋 各渠道发送结果 (共 ${result.data.length} 个渠道):`;
+            result.data.forEach((item: BatchSendChannelResult, index: number) => {
+              const channelSuccess = item.code === 200;
+              const icon = channelSuccess ? '✅' : '❌';
+              responseText += `\n\n  ${icon} 渠道 ${index + 1}: ${item.channel}`;
+              responseText += `\n  - 状态码: ${item.code}`;
+              responseText += `\n  - 消息: ${item.message}`;
+              if (item.shortCode) {
+                responseText += `\n  - 流水号: ${item.shortCode} （可用于查询最终发送结果）`;
+              }
+            });
+          }
+
+          if (success) {
+            responseText += '\n\n⚠️ 注意：code=200 仅代表服务端收到请求，并不表示消息发送成功。请使用各渠道的流水号查询最终发送结果。';
+          }
+
+          return {
+            content: [{
+              type: 'text',
+              text: responseText
+            }]
+          };
+        } catch (error) {
+          return {
+            content: [{
+              type: 'text',
+              text: `❌ 多渠道发送请求失败: ${error instanceof Error ? error.message : String(error)}`
+            }],
+            isError: true
+          };
+        }
+      }
+    );
   }
 
   /**
@@ -460,7 +535,12 @@ export class PushPlusMcpServer {
             },
             {
               name: 'extension',
-              description: '浏览器插件'
+              description: '插件推送'
+            },
+            {
+              name: 'app',
+              description: 'APP推送',
+              note: '需要先登录APP'
             }
           ]
         };

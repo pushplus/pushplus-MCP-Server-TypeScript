@@ -22,7 +22,7 @@ export const PushMessageSchema = z.object({
   content: z.string().describe('具体消息内容，根据template参数进行渲染'),
   topic: z.string().optional().describe('群组编码，不填仅发送给自己'),
   template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).default('html').describe('发送消息模板'),
-  channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension']).default('wechat').describe('发送渠道'),
+  channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension', 'app']).default('wechat').describe('发送渠道'),
   to: z.string().optional().describe('好友令牌，微信公众号渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开，实名用户最多10人，会员100人'),
   pre: z.string().optional().describe('预处理编码，仅供会员使用。可提前自定义代码来修改消息内容'),
   webhook: z.string().url().optional().describe('第三方webhook地址'),
@@ -31,6 +31,38 @@ export const PushMessageSchema = z.object({
 });
 
 export type PushMessage = z.infer<typeof PushMessageSchema>;
+
+// 多渠道批量发送消息参数模式定义
+export const BatchSendMessageSchema = z.object({
+  token: z.string().describe('用户token或消息token'),
+  title: z.string().optional().describe('消息标题'),
+  content: z.string().describe('具体消息内容，根据不同template支持不同格式'),
+  channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开。如："wechat,webhook,extension"'),
+  option: z.string().optional().describe('渠道配置参数(原webhook参数)，多个渠道的时候用逗号隔开，一一对应发送渠道'),
+  topic: z.string().optional().describe('群组编码，不填仅发送给自己；channel为webhook时无效'),
+  template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).default('html').describe('发送模板'),
+  callbackUrl: z.string().optional().describe('发送结果回调地址'),
+  timestamp: z.number().optional().describe('毫秒时间戳。服务器时间戳大于此时间戳，则消息不会发送'),
+  to: z.string().optional().describe('好友令牌，多人用逗号隔开，实名用户最多10人，会员100人'),
+  pre: z.string().optional().describe('预处理编码，仅供会员使用')
+});
+
+export type BatchSendMessage = z.infer<typeof BatchSendMessageSchema>;
+
+// 多渠道发送单条渠道响应
+export interface BatchSendChannelResult {
+  shortCode: string;
+  message: string;
+  code: number;
+  channel: string;
+}
+
+// 多渠道发送响应
+export interface BatchSendResponse {
+  code: number;
+  msg: string;
+  data: BatchSendChannelResult[];
+}
 
 // 消息状态查询参数
 export const MessageStatusQuerySchema = z.object({
@@ -45,6 +77,7 @@ export type MessageStatusQuery = z.infer<typeof MessageStatusQuerySchema>;
  */
 export class PushPlusClient {
   private readonly baseUrl = 'https://www.pushplus.plus/send';
+  private readonly batchSendUrl = 'https://www.pushplus.plus/batchSend';
   private readonly queryUrl = 'https://www.pushplus.plus/query';
   
   constructor(private defaultToken?: string) {}
@@ -98,6 +131,59 @@ export class PushPlusClient {
         throw new Error(`参数验证失败: ${error.errors.map(e => e.message).join(', ')}`);
       }
       throw new Error(`发送消息失败: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  /**
+   * 多渠道批量发送消息
+   * @param message 批量发送消息参数
+   * @returns 批量发送结果，包含每个渠道的流水号
+   */
+  async batchSendMessage(
+    message: Partial<Omit<BatchSendMessage, 'token'>> & { content: string; token?: string }
+  ): Promise<BatchSendResponse> {
+    const token = message.token || this.defaultToken;
+    if (!token) {
+      throw new Error('缺少 PushPlus token，请在消息参数中提供或在初始化时设置默认token');
+    }
+
+    const payload: BatchSendMessage = {
+      token,
+      content: message.content,
+      title: message.title,
+      channel: message.channel || 'wechat',
+      option: message.option,
+      topic: message.topic,
+      template: message.template || 'html',
+      callbackUrl: message.callbackUrl,
+      timestamp: message.timestamp,
+      to: message.to,
+      pre: message.pre
+    };
+
+    const validatedPayload = BatchSendMessageSchema.parse(payload);
+
+    try {
+      const response = await fetch(this.batchSendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'PushPlus-MCP-Server/1.0.1'
+        },
+        body: JSON.stringify(validatedPayload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP请求失败: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data as BatchSendResponse;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        throw new Error(`参数验证失败: ${error.errors.map(e => e.message).join(', ')}`);
+      }
+      throw new Error(`多渠道发送消息失败: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
