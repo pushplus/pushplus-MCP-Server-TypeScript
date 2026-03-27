@@ -52,7 +52,7 @@ export class PushPlusMcpServer {
           title: z.string().max(100, '消息标题最大长度100字符').describe('消息标题'),
           content: z.string().describe('消息内容，支持HTML、文本、Markdown等格式'),
           template: z.enum(['html', 'txt', 'json', 'markdown', 'cloudMonitor', 'jenkins', 'route', 'pay']).optional().describe('消息模板类型'),
-          channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension', 'app']).optional().describe('推送渠道'),
+          channel: z.enum(['wechat', 'webhook', 'cp', 'mail', 'sms', 'voice', 'extension', 'app', 'clawbot']).optional().describe('推送渠道'),
           topic: z.string().optional().describe('群组编码，不填仅发送给自己'),
           to: z.string().optional().describe('好友令牌，微信公众号渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开'),
           pre: z.string().optional().describe('预处理编码，仅供会员使用。可提前自定义代码来修改消息内容'),
@@ -316,7 +316,7 @@ export class PushPlusMcpServer {
       'batch_send_message',
       {
         title: '多渠道批量发送消息',
-        description: '通过 PushPlus 同时向多个渠道发送推送消息，支持 wechat、webhook、cp、mail、sms、voice、extension、app 等渠道，多个渠道用逗号隔开',
+        description: '通过 pushplus 同时向多个渠道发送推送消息，支持 wechat、webhook、cp、mail、sms、voice、extension、app、clawbot 等渠道，多个渠道用逗号隔开',
         inputSchema: {
           content: z.string().describe('具体消息内容，根据不同template支持不同格式'),
           channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开。如："wechat,webhook,extension"'),
@@ -541,6 +541,11 @@ export class PushPlusMcpServer {
               name: 'app',
               description: 'APP推送',
               note: '需要先登录APP'
+            },
+            {
+              name: 'clawbot',
+              description: '微信ClawBot推送',
+              note: '需要配置ClawBot'
             }
           ]
         };
