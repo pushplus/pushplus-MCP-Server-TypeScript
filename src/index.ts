@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * PushPlus MCP Server 入口文件
+ * pushplus mcp server 入口文件
  * 提供命令行接口和服务器启动功能
  */
 
@@ -13,7 +13,7 @@ import { getConfig } from './config.js';
  */
 function showHelp(): void {
   console.log(`
-🚀 PushPlus MCP Server
+🚀 pushplus mcp server
 
 用法:
   pushplus-mcp [选项]
@@ -58,14 +58,14 @@ function showHelp(): void {
  */
 function showVersion(): void {
   const version = process.env.MCP_SERVER_VERSION || '1.0.7';
-  console.log(`PushPlus MCP Server v${version}`);
+  console.log(`pushplus mcp server v${version}`);
 }
 
 /**
  * 运行配置测试
  */
 async function runTest(): Promise<void> {
-  console.log('🧪 运行 PushPlus MCP Server 配置测试...\n');
+  console.log('🧪 运行 pushplus mcp server 配置测试...\n');
   
   try {
     const config = getConfig();
@@ -88,14 +88,14 @@ async function runTest(): Promise<void> {
 
     // 测试发送接口（若配置了 PUSHPLUS_TOKEN）
     if (config.getPushPlusToken()) {
-      console.log('\n📡 测试 PushPlus 发送接口...');
+      console.log('\n📡 测试 pushplus 发送接口...');
       try {
         const { PushPlusClient } = await import('./pushplus.js');
         const client = new PushPlusClient(config.getPushPlusToken(), config.getBaseUrl());
 
         const testResult = await client.sendMessage({
-          title: 'PushPlus MCP Server 测试',
-          content: '这是一条来自 PushPlus MCP Server 的测试消息。如果您收到这条消息，说明配置正确。'
+          title: 'pushplus mcp server 测试',
+          content: '这是一条来自 pushplus mcp server 的测试消息。如果您收到这条消息，说明配置正确。'
         });
 
         if (testResult.code === 200) {
@@ -116,7 +116,7 @@ async function runTest(): Promise<void> {
 
     // 测试开放接口（若配置了开放凭证）
     if (config.hasOpenCredentials()) {
-      console.log('\n📡 测试 PushPlus 开放接口...');
+      console.log('\n📡 测试 pushplus 开放接口...');
       try {
         const { OpenApiClient } = await import('./open-client.js');
         const openClient = new OpenApiClient(
@@ -146,7 +146,7 @@ async function runTest(): Promise<void> {
  * 显示配置信息
  */
 function showConfig(): void {
-  console.log('📋 PushPlus MCP Server 当前配置:\n');
+  console.log('📋 pushplus mcp server 当前配置:\n');
   
   try {
     const config = getConfig();

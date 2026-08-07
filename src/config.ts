@@ -9,7 +9,7 @@ import { TemplateEnumSchema, ChannelEnumSchema } from './pushplus.js';
 
 // 配置环境变量模式
 export const ConfigSchema = z.object({
-  // PushPlus相关配置：token 同时用于发送与开放接口鉴权
+  // pushplus相关配置：token 同时用于发送与开放接口鉴权
   pushplusToken: z.string().default(''),
   secretKey: z.string().default(''),
   baseUrl: z.string().url().default('https://www.pushplus.plus'),
@@ -150,11 +150,11 @@ export class ConfigManager {
     const mask = (value: string) =>
       value ? value.slice(0, 8) + '***' + value.slice(-4) : '未设置';
 
-    console.log('🔧 PushPlus MCP Server 配置信息:');
+    console.log('🔧 pushplus mcp server 配置信息:');
     console.log(`   服务器名称: ${this.config.mcpServerName}`);
     console.log(`   服务器版本: ${this.config.mcpServerVersion}`);
     console.log(`   Base URL: ${this.getBaseUrl()}`);
-    console.log(`   PushPlus Token: ${mask(this.config.pushplusToken)}`);
+    console.log(`   pushplus token: ${mask(this.config.pushplusToken)}`);
     console.log(`   Secret Key: ${this.config.secretKey ? '已设置' : '未设置（开放接口不可用）'}`);
     console.log(`   默认模板: ${this.config.defaultTemplate}`);
     console.log(`   默认渠道: ${this.config.defaultChannel}`);

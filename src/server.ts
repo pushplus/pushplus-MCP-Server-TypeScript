@@ -1,6 +1,6 @@
 /**
- * PushPlus MCP Server 主文件
- * 实现 Model Context Protocol 服务器，提供 PushPlus 推送功能
+ * pushplus mcp server 主文件
+ * 实现 Model Context Protocol 服务器，提供 pushplus 推送功能
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -19,7 +19,7 @@ import { OpenApiClient } from './open-client.js';
 import { registerAllOpenTools } from './tools/open/index.js';
 
 /**
- * PushPlus MCP Server 类
+ * pushplus mcp server 类
  */
 export class PushPlusMcpServer {
   private server: McpServer;
@@ -89,7 +89,7 @@ export class PushPlusMcpServer {
       'send_push_message',
       {
         title: '发送推送消息',
-        description: '通过 PushPlus /send 接口发送推送消息。form/doc/excel/webdiff 模板必须传 pushId。',
+        description: '通过 pushplus /send 接口发送推送消息。form/doc/excel/webdiff 模板必须传 pushId。',
         inputSchema: {
           content: z.string().describe('消息内容，支持HTML、文本、Markdown等格式'),
           title: z.string().max(200, '消息标题最大长度200字符').optional().describe('消息标题，可选'),
@@ -280,7 +280,7 @@ export class PushPlusMcpServer {
       'batch_send_message',
       {
         title: '多渠道批量发送消息',
-        description: '通过 PushPlus /batchSend 接口同时向多个渠道发送消息。channel 用逗号隔开（最多5个），option 与 channel 一一对应。form/doc/excel/webdiff 模板必须传 pushId。',
+        description: '通过 pushplus /batchSend 接口同时向多个渠道发送消息。channel 用逗号隔开（最多5个），option 与 channel 一一对应。form/doc/excel/webdiff 模板必须传 pushId。',
         inputSchema: {
           content: z.string().describe('具体消息内容，根据不同template支持不同格式'),
           channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开。如："wechat,webhook,mail"'),
@@ -363,7 +363,7 @@ export class PushPlusMcpServer {
       'server_status',
       'pushplus://status',
       {
-        title: 'PushPlus MCP Server 状态',
+        title: 'pushplus mcp server 状态',
         description: '获取服务器状态和配置信息',
         mimeType: 'application/json'
       },
@@ -404,7 +404,7 @@ export class PushPlusMcpServer {
       'pushplus://templates',
       {
         title: '支持的消息模板',
-        description: '获取 PushPlus 支持的所有消息模板类型',
+        description: '获取 pushplus 支持的所有消息模板类型',
         mimeType: 'application/json'
       },
       async () => {
@@ -447,7 +447,7 @@ export class PushPlusMcpServer {
       'pushplus://channels',
       {
         title: '支持的推送渠道',
-        description: '获取 PushPlus 支持的所有推送渠道',
+        description: '获取 pushplus 支持的所有推送渠道',
         mimeType: 'application/json'
       },
       async () => {
@@ -487,7 +487,7 @@ export class PushPlusMcpServer {
   async start(): Promise<void> {
     if (this.config.isDebugMode()) {
       this.config.printConfig();
-      console.log('🚀 启动 PushPlus MCP Server...');
+      console.log('🚀 启动 pushplus mcp server...');
     }
 
     try {
@@ -495,7 +495,7 @@ export class PushPlusMcpServer {
       await this.server.connect(transport);
 
       if (this.config.isDebugMode()) {
-        console.log('✅ PushPlus MCP Server 已启动，正在监听 stdio...');
+        console.log('✅ pushplus mcp server 已启动，正在监听 stdio...');
       }
     } catch (error) {
       console.error('❌ 启动服务器失败:', error);
@@ -508,7 +508,7 @@ export class PushPlusMcpServer {
    */
   async stop(): Promise<void> {
     if (this.config.isDebugMode()) {
-      console.log('🛑 正在停止 PushPlus MCP Server...');
+      console.log('🛑 正在停止 pushplus mcp server...');
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@perk-net/pushplus-mcp-server",
   "version": "1.0.7",
-  "description": "pushplus MCP Server - 通过 Model Context Protocol 提供 pushplus 推送消息功能，支持微信、邮箱等多渠道推送",
+  "description": "pushplus mcp server - 通过 Model Context Protocol 提供 pushplus 推送消息功能，支持微信、邮箱等多渠道推送",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
@@ -14,7 +14,7 @@
     "dev": "npm run build && npm start",
     "clean": "rmdir /s /q dist 2>nul || echo \"Directory cleaned\"",
     "rebuild": "npm run clean && npm run build",
-    "test": "echo \"Testing PushPlus MCP Server...\" && node dist/index.js --test"
+    "test": "echo \"Testing pushplus mcp server...\" && node dist/index.js --test"
   },
   "files": [
     "dist/**/*",

@@ -1,6 +1,6 @@
-# PushPlus MCP Server
+# pushplus mcp server
 
-一个基于 Model Context Protocol (MCP) 的 PushPlus 推送服务器，让 AI 助手能够通过 PushPlus 发送推送消息到微信、邮箱等渠道。
+一个基于 Model Context Protocol (MCP) 的 pushplus 推送服务器，让 AI 助手能够通过 pushplus 发送推送消息到微信、邮箱等渠道。
 
 > 🎉 **现已发布到 NPM！**  
 > 可直接通过 `npm install -g @perk-net/pushplus-mcp-server` 安装使用，无需下载源码。
@@ -65,9 +65,9 @@ npm run test
 - 🔧 参与项目开发
 - 📊 需要调试详细日志
 
-### 获取 PushPlus Token
+### 获取 pushplus token
 
-1. 访问 [PushPlus 官网](https://www.pushplus.plus/)
+1. 访问 [pushplus 官网](https://www.pushplus.plus/)
 2. 微信扫码登录
 3. 在个人中心获取您的 Token
 
@@ -157,7 +157,7 @@ pushplus-mcp --test
 "请发送一条测试推送消息到我的微信"
 ```
 
-🎉 恭喜！您已成功设置 PushPlus MCP Server！
+🎉 恭喜！您已成功设置 pushplus mcp server！
 
 > 📝 **配置说明**：当您在 Claude Desktop 配置中设置了 `env.PUSHPLUS_TOKEN` 后，就不需要创建 `.env` 文件了。MCP 服务器会自动读取通过 Claude Desktop 传递的环境变量。
 
@@ -394,7 +394,7 @@ npm run watch
 
 在 Claude 中询问：
 ```
-请使用 PushPlus 发送一条测试消息，标题是"测试消息"，内容是"这是一条来自 Claude 的测试消息"
+请使用 pushplus 发送一条测试消息，标题是"测试消息"，内容是"这是一条来自 Claude 的测试消息"
 ```
 
 Claude 会调用 `send_text_message` 工具发送纯文本消息。
@@ -480,7 +480,7 @@ Claude 会调用 `send_push_message` 工具，使用所有可用参数。
 
 询问 Claude：
 ```
-请查看 PushPlus MCP Server 的状态信息
+请查看 pushplus mcp server 的状态信息
 ```
 
 Claude 会读取 `pushplus://status` 资源，显示服务器状态。
@@ -489,14 +489,14 @@ Claude 会读取 `pushplus://status` 资源，显示服务器状态。
 
 询问 Claude：
 ```
-PushPlus 支持哪些消息模板？
+pushplus 支持哪些消息模板？
 ```
 
 Claude 会读取 `pushplus://templates` 资源，显示所有支持的模板类型。
 
 询问 Claude：
 ```
-PushPlus 支持哪些推送渠道？
+pushplus 支持哪些推送渠道？
 ```
 
 Claude 会读取 `pushplus://channels` 资源，显示所有支持的推送渠道。
@@ -511,7 +511,7 @@ Claude 会读取 `pushplus://channels` 资源，显示所有支持的推送渠�
 ```
 
 **解决方案**: 
-- 检查您的 PushPlus Token 是否正确，Token 应该是32位的字母数字组合
+- 检查您的 pushplus token 是否正确，Token 应该是32位的字母数字组合
 - 确认 Token 是否有效且有足够的推送额度
 
 #### 2. 推送失败
@@ -581,7 +581,7 @@ pushplus-mcp-server/
 ├── src/
 │   ├── index.ts          # 程序入口
 │   ├── server.ts         # MCP 服务器实现
-│   ├── pushplus.ts       # PushPlus API 客户端
+│   ├── pushplus.ts       # pushplus API 客户端
 │   └── config.ts         # 配置管理
 ├── dist/                 # 编译输出目录
 ├── package.json          # 项目配置
@@ -630,7 +630,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 相关链接
 
-- [PushPlus 官网](https://www.pushplus.plus/)
+- [pushplus 官网](https://www.pushplus.plus/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
 - [Claude Desktop](https://claude.ai/)
@@ -639,7 +639,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 <div align="center">
 
-**🎉 享受使用 PushPlus MCP Server！**
+**🎉 享受使用 pushplus mcp server！**
 
 如有问题，欢迎提交 [Issue](https://github.com/pushplus/pushplus-MCP-Server-TypeScript/issues) 或 [Pull Request](https://github.com/pushplus/pushplus-MCP-Server-TypeScript/pulls)
 

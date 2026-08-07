@@ -1,5 +1,5 @@
 /**
- * PushPlus Open API 客户端
+ * pushplus Open API 客户端
  * 负责 access-key 获取、缓存与 /open/** 请求
  */
 
@@ -68,7 +68,7 @@ export class OpenApiClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'PushPlus-MCP-Server/1.0.7'
+        'User-Agent': 'pushplus-mcp-server/1.0.7'
       },
       body: JSON.stringify({
         token: this.token,
@@ -110,7 +110,7 @@ export class OpenApiClient {
     const url = this.buildUrl(path, options.query);
 
     const headers: Record<string, string> = {
-      'User-Agent': 'PushPlus-MCP-Server/1.0.7',
+      'User-Agent': 'pushplus-mcp-server/1.0.7',
       'access-key': accessKey
     };
 

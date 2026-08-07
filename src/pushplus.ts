@@ -1,6 +1,6 @@
 /**
- * PushPlus API 客户端模块
- * 提供 PushPlus 推送服务的 TypeScript 接口
+ * pushplus API 客户端模块
+ * 提供 pushplus 推送服务的 TypeScript 接口
  */
 
 import { z } from 'zod';
@@ -39,7 +39,7 @@ export const PUSH_ID_TEMPLATES = new Set(['form', 'doc', 'excel', 'webdiff']);
 export const TemplateEnumSchema = z.enum(TEMPLATE_TYPES);
 export const ChannelEnumSchema = z.enum(CHANNEL_TYPES);
 
-// PushPlus API 响应模式定义
+// pushplus API 响应模式定义
 export const PushPlusResponseSchema = z.object({
   code: z.number(),
   msg: z.string(),
@@ -119,10 +119,10 @@ export interface BatchSendResponse {
   data: BatchSendChannelResult[];
 }
 
-const USER_AGENT = 'PushPlus-MCP-Server/1.0.7';
+const USER_AGENT = 'pushplus-mcp-server/1.0.7';
 
 /**
- * PushPlus API 客户端类
+ * pushplus API 客户端类
  */
 export class PushPlusClient {
   private readonly sendUrl: string;
@@ -145,7 +145,7 @@ export class PushPlusClient {
   ): Promise<PushPlusResponse> {
     const token = message.token || this.defaultToken;
     if (!token) {
-      throw new Error('缺少 PushPlus token，请在消息参数中提供或在初始化时设置默认token');
+      throw new Error('缺少 pushplus token，请在消息参数中提供或在初始化时设置默认token');
     }
 
     const payload = {
@@ -205,7 +205,7 @@ export class PushPlusClient {
   ): Promise<BatchSendResponse> {
     const token = message.token || this.defaultToken;
     if (!token) {
-      throw new Error('缺少 PushPlus token，请在消息参数中提供或在初始化时设置默认token');
+      throw new Error('缺少 pushplus token，请在消息参数中提供或在初始化时设置默认token');
     }
 
     const payload = {
