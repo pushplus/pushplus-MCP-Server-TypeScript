@@ -47,8 +47,8 @@ npm install -g @perk-net/pushplus-mcp-server
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-org/pushplus-mcp
-cd pushplus-mcp
+git clone https://github.com/pushplus/pushplus-MCP-Server-TypeScript.git
+cd pushplus-MCP-Server-TypeScript
 
 # 安装依赖
 npm install
@@ -101,7 +101,8 @@ pushplus-mcp --test
         "@perk-net/pushplus-mcp-server"
       ],
       "env": {
-        "PUSHPLUS_TOKEN": "您的Token"
+        "PUSHPLUS_TOKEN": "您的Token",
+        "PUSHPLUS_SECRET_KEY": "您的SecretKey"
       }
     }
   }
@@ -119,7 +120,8 @@ pushplus-mcp --test
         "@perk-net/pushplus-mcp-server"
       ],
       "env": {
-        "PUSHPLUS_TOKEN": "您的Token"
+        "PUSHPLUS_TOKEN": "您的Token",
+        "PUSHPLUS_SECRET_KEY": "您的SecretKey"
       }
     }
   }
@@ -134,7 +136,8 @@ pushplus-mcp --test
       "command": "node",
       "args": ["/path/to/pushplus-mcp-server/dist/index.js"],
       "env": {
-        "PUSHPLUS_TOKEN": "您的Token"
+        "PUSHPLUS_TOKEN": "您的Token",
+        "PUSHPLUS_SECRET_KEY": "您的SecretKey"
       }
     }
   }
@@ -163,19 +166,23 @@ pushplus-mcp --test
 ### 可用工具
 
 #### 1. `send_push_message` - 发送推送消息
-完整的推送消息工具，支持所有参数：
+完整的推送消息工具，对齐最新 `/send` 接口：
 
 ```json
 {
-  "title": "消息标题",
-  "content": "消息内容",
+  "content": "消息内容（必填）",
+  "title": "消息标题（可选）",
+  "icon": "消息图标（可选）",
   "template": "html",
   "channel": "wechat",
   "topic": "群组编码（可选）",
   "to": "好友令牌（可选）",
   "pre": "预处理编码（可选，仅供会员使用）",
-  "webhook": "webhook地址（可选）",
-  "callbackUrl": "回调地址（可选）"
+  "webhook": "webhook编码（可选，非URL）",
+  "option": "渠道配置参数（可选，与webhook等价）",
+  "callbackUrl": "回调地址（可选）",
+  "timestamp": "1632993318000",
+  "pushId": "form/doc/excel/webdiff 模板必填"
 }
 ```
 
@@ -184,11 +191,12 @@ pushplus-mcp --test
 
 ```json
 {
-  "title": "消息标题",
   "content": "纯文本内容",
+  "title": "消息标题（可选）",
   "topic": "群组编码（可选）",
   "to": "好友令牌（可选）",
-  "pre": "预处理编码（可选）"
+  "pre": "预处理编码（可选）",
+  "channel": "wechat"
 }
 ```
 
@@ -197,11 +205,12 @@ pushplus-mcp --test
 
 ```json
 {
-  "title": "消息标题",
   "content": "<h1>HTML内容</h1><p>支持HTML标签</p>",
+  "title": "消息标题（可选）",
   "topic": "群组编码（可选）",
   "to": "好友令牌（可选）",
-  "pre": "预处理编码（可选）"
+  "pre": "预处理编码（可选）",
+  "channel": "wechat"
 }
 ```
 
@@ -210,11 +219,12 @@ pushplus-mcp --test
 
 ```json
 {
-  "title": "消息标题",
   "content": "# Markdown标题\n\n支持**粗体**和*斜体*",
+  "title": "消息标题（可选）",
   "topic": "群组编码（可选）",
   "to": "好友令牌（可选）",
-  "pre": "预处理编码（可选）"
+  "pre": "预处理编码（可选）",
+  "channel": "wechat"
 }
 ```
 
@@ -223,13 +233,56 @@ pushplus-mcp --test
 
 ```json
 {
-  "title": "消息标题",
   "content": "{\"data\": \"JSON格式内容\"}",
+  "title": "消息标题（可选）",
   "topic": "群组编码（可选）",
   "to": "好友令牌（可选）",
-  "pre": "预处理编码（可选）"
+  "pre": "预处理编码（可选）",
+  "channel": "wechat"
 }
 ```
+
+#### 6. `batch_send_message` - 多渠道批量发送
+对应 `/batchSend` 接口，可同时向多个渠道发送：
+
+```json
+{
+  "content": "消息内容",
+  "channel": "wechat,mail,webhook",
+  "option": ",,webhook编码",
+  "title": "消息标题（可选）",
+  "template": "html",
+  "pushId": "form/doc/excel/webdiff 模板必填"
+}
+```
+
+#### 7. 开放接口工具（`open_*`）
+配置 `PUSHPLUS_TOKEN` + `PUSHPLUS_SECRET_KEY` 后可用，覆盖全部 `/open/**` 接口，命名规则：`open_<模块>_<动作>`。`PUSHPLUS_TOKEN` 与发送消息使用同一 token。
+
+| 模块 | 示例工具 |
+|------|----------|
+| auth | `open_get_access_key` |
+| user | `open_user_my_info` / `open_user_token` / `open_user_send_count` |
+| message | `open_message_list` / `open_message_send_result` / `open_message_delete` |
+| token | `open_token_list` / `open_token_add` / `open_token_edit` / `open_token_delete` |
+| topic | `open_topic_list` / `open_topic_add` / `open_topic_detail` 等 |
+| topicUser | `open_topic_user_subscriber_list` 等 |
+| friend | `open_friend_list` / `open_friend_delete` 等 |
+| webhook | `open_webhook_list` / `open_webhook_add` 等 |
+| setting | `open_setting_list_user_default` 等 |
+| pre | `open_pre_list` / `open_pre_test` 等 |
+| channel | `open_mail_list` / `open_mp_list` / `open_cp_list` |
+| clawBot | `open_clawbot_bot_info` / `open_clawbot_get_msg` 等 |
+| file/image | `open_file_upload_image` / `open_user_image_list` |
+| pay | `open_pay_transfer_order`（高风险） |
+
+说明：
+- 开放接口实际地址形如 `https://www.pushplus.plus/api/open/...`；发送接口仍为 `/send`
+- MCP 会自动换取并缓存 `access-key`（提前约 60 秒刷新）
+- `PUSHPLUS_TOKEN` 须为**用户 token**（开放接口不支持消息 token）
+- 使用前需在官网开启开放接口并配置安全 IP
+- 各 `open_*` 工具请求/响应字段说明对齐官方文档：https://www.pushplus.plus/doc/guide/openApi.html
+- 删除/提现/解绑等工具 description 中标注「高风险」
 
 ### 可用资源
 
@@ -244,26 +297,36 @@ pushplus-mcp --test
 
 ### 支持的消息模板
 
-| 模板类型 | 描述 | 示例 |
+| 模板类型 | 描述 | 备注 |
 |---------|------|------|
-| `html` | HTML格式消息，支持HTML标签和样式 | `<h1>标题</h1><p>内容</p>` |
-| `txt` | 纯文本消息，简单易读 | `标题\n内容` |
-| `json` | JSON格式消息，适合结构化数据 | `{"title": "标题", "content": "内容"}` |
-| `markdown` | Markdown格式消息，支持Markdown语法 | `# 标题\n\n内容` |
-| `cloudMonitor` | 云监控消息格式，适合告警通知 | `告警: 服务器CPU使用率过高` |
+| `html` | HTML格式消息 | 默认模板 |
+| `txt` | 纯文本消息 | |
+| `json` | JSON格式消息 | |
+| `markdown` | Markdown格式消息 | |
+| `cloudMonitor` | 阿里云监控报警定制模板 | |
+| `jenkins` | Jenkins插件定制模板 | |
+| `route` | 路由器插件定制模板 | |
+| `pay` | 支付成功通知模板 | |
+| `order` | 订单支付成功模板 | |
+| `verify` | 实名认证模板 | |
+| `form` | 表单格式模板 | 需传 `pushId` |
+| `doc` | 文档格式模板 | 需传 `pushId` |
+| `excel` | 表格格式模板 | 需传 `pushId` |
+| `webdiff` | 网页差异对比模板 | 需传 `pushId` |
 
 ### 支持的推送渠道
 
 | 渠道类型 | 描述 | 备注 |
 |---------|------|------|
-| `wechat` | 微信推送，通过微信公众号发送 | 默认渠道 |
-| `webhook` | 第三方webhook推送 | 需要提供webhook参数 |
-| `cp` | 企业微信推送 | 需要配置企业微信应用 |
+| `wechat` | 微信公众号推送 | 默认渠道 |
+| `webhook` | 第三方webhook推送 | 传 webhook/option **编码**（非URL） |
+| `cp` | 企业微信应用推送 | 需要配置企业微信应用 |
 | `mail` | 邮箱推送 | 需要绑定邮箱 |
 | `sms` | 短信推送 | 需要绑定手机号 |
 | `voice` | 语音推送 | 需要绑定手机号 |
-| `extension` | 插件推送 | 支持浏览器插件和桌面应用程序 |
+| `extension` | 浏览器插件推送 | |
 | `app` | App推送 | 需要先登录App |
+| `clawbot` | 微信ClawBot推送 | 需要配置ClawBot |
 
 ## 🛠️ 命令行工具
 
@@ -315,9 +378,12 @@ npm run watch
 
 | 变量名 | 描述 | 默认值 | 必需 |
 |--------|------|--------|------|
-| `PUSHPLUS_TOKEN` | PushPlus API Token | - | ✅ |
+| `PUSHPLUS_TOKEN` | 用户 Token（发送与开放接口共用） | - | ✅ |
+| `PUSHPLUS_SECRET_KEY` | 开放接口 secretKey | - | 调用 open_* 时需要 |
+| `PUSHPLUS_BASE_URL` | API 根地址 | https://www.pushplus.plus | ❌ |
+| `PUSHPLUS_OPEN_API_PREFIX` | 开放接口前缀（发送不走此前缀） | /api | ❌ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.1 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.7 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |
@@ -575,6 +641,6 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 **🎉 享受使用 PushPlus MCP Server！**
 
-如有问题，欢迎提交 [Issue](https://github.com/your-org/pushplus-mcp/issues) 或 [Pull Request](https://github.com/your-org/pushplus-mcp/pulls)
+如有问题，欢迎提交 [Issue](https://github.com/pushplus/pushplus-MCP-Server-TypeScript/issues) 或 [Pull Request](https://github.com/pushplus/pushplus-MCP-Server-TypeScript/pulls)
 
 </div>

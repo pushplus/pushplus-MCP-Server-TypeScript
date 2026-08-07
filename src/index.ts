@@ -28,9 +28,11 @@ function showHelp(): void {
   方式1: 通过 .env 文件配置
   方式2: 通过系统环境变量或 Claude Desktop 配置
 
-  PUSHPLUS_TOKEN         PushPlus API Token (必需)
+  PUSHPLUS_TOKEN         用户 Token（发送与开放接口共用，必需）
+  PUSHPLUS_SECRET_KEY    开放接口 secretKey（调用 open_* 时需要）
+  PUSHPLUS_BASE_URL      API 根地址 (默认: https://www.pushplus.plus)
   MCP_SERVER_NAME        MCP 服务器名称 (默认: pushplus-mcp-server)
-  MCP_SERVER_VERSION     MCP 服务器版本 (默认: 1.0.1)
+  MCP_SERVER_VERSION     MCP 服务器版本 (默认: 1.0.7)
   DEFAULT_TEMPLATE       默认消息模板 (默认: html)
   DEFAULT_CHANNEL        默认推送渠道 (默认: wechat)
   DEBUG                  调试模式 (默认: false)
@@ -47,7 +49,7 @@ function showHelp(): void {
   # 查看配置
   pushplus-mcp --config
 
-更多信息请访问: https://github.com/your-username/pushplus-mcp-server
+更多信息请访问: https://github.com/pushplus/pushplus-MCP-Server-TypeScript
 `);
 }
 
@@ -55,7 +57,7 @@ function showHelp(): void {
  * 显示版本信息
  */
 function showVersion(): void {
-  const version = process.env.MCP_SERVER_VERSION || '1.0.1';
+  const version = process.env.MCP_SERVER_VERSION || '1.0.7';
   console.log(`PushPlus MCP Server v${version}`);
 }
 
@@ -84,29 +86,53 @@ async function runTest(): Promise<void> {
       process.exit(1);
     }
 
-    // 测试 PushPlus API 连接
-    console.log('\n📡 测试 PushPlus API 连接...');
-    try {
-      const { PushPlusClient } = await import('./pushplus.js');
-      const client = new PushPlusClient(config.getPushPlusToken());
-      
-      // 尝试发送测试消息
-      const testResult = await client.sendMessage({
-        title: 'PushPlus MCP Server 测试',
-        content: '这是一条来自 PushPlus MCP Server 的测试消息。如果您收到这条消息，说明配置正确。'
-      });
+    // 测试发送接口（若配置了 PUSHPLUS_TOKEN）
+    if (config.getPushPlusToken()) {
+      console.log('\n📡 测试 PushPlus 发送接口...');
+      try {
+        const { PushPlusClient } = await import('./pushplus.js');
+        const client = new PushPlusClient(config.getPushPlusToken(), config.getBaseUrl());
 
-      if (testResult.code === 200) {
-        console.log('✅ PushPlus API 连接成功，测试消息已发送');
-        console.log(`   响应: ${testResult.msg}`);
-      } else {
-        console.log('⚠️  PushPlus API 响应异常');
-        console.log(`   状态码: ${testResult.code}`);
-        console.log(`   消息: ${testResult.msg}`);
+        const testResult = await client.sendMessage({
+          title: 'PushPlus MCP Server 测试',
+          content: '这是一条来自 PushPlus MCP Server 的测试消息。如果您收到这条消息，说明配置正确。'
+        });
+
+        if (testResult.code === 200) {
+          console.log('✅ 发送接口连接成功，测试消息已发送');
+          console.log(`   响应: ${testResult.msg}`);
+        } else {
+          console.log('⚠️  发送接口响应异常');
+          console.log(`   状态码: ${testResult.code}`);
+          console.log(`   消息: ${testResult.msg}`);
+        }
+      } catch (error) {
+        console.log('❌ 发送接口连接失败');
+        console.log(`   错误: ${error instanceof Error ? error.message : String(error)}`);
       }
-    } catch (error) {
-      console.log('❌ PushPlus API 连接失败');
-      console.log(`   错误: ${error instanceof Error ? error.message : String(error)}`);
+    } else {
+      console.log('\nℹ️  未配置 PUSHPLUS_TOKEN，跳过发送接口测试');
+    }
+
+    // 测试开放接口（若配置了开放凭证）
+    if (config.hasOpenCredentials()) {
+      console.log('\n📡 测试 PushPlus 开放接口...');
+      try {
+        const { OpenApiClient } = await import('./open-client.js');
+        const openClient = new OpenApiClient(
+          config.getOpenApiBaseUrl(),
+          config.getPushPlusToken(),
+          config.getSecretKey()
+        );
+        const info = await openClient.getAccessKey(true);
+        console.log('✅ 开放接口 access-key 获取成功');
+        console.log(`   expiresIn: ${info.expiresIn}s`);
+      } catch (error) {
+        console.log('❌ 开放接口连接失败');
+        console.log(`   错误: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    } else {
+      console.log('\nℹ️  未配置开放接口凭证，跳过 open API 测试');
     }
 
     console.log('\n🎉 测试完成');
