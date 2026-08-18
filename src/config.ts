@@ -18,7 +18,7 @@ export const ConfigSchema = z.object({
 
   // MCP服务器配置
   mcpServerName: z.string().default('pushplus-mcp-server'),
-  mcpServerVersion: z.string().default('1.0.7'),
+  mcpServerVersion: z.string().default('1.0.8'),
 
   // 默认配置
   defaultTemplate: TemplateEnumSchema.default('html'),
@@ -61,7 +61,7 @@ export class ConfigManager {
       baseUrl: process.env.PUSHPLUS_BASE_URL || 'https://www.pushplus.plus',
       openApiPrefix: process.env.PUSHPLUS_OPEN_API_PREFIX || '/api',
       mcpServerName: process.env.MCP_SERVER_NAME || 'pushplus-mcp-server',
-      mcpServerVersion: process.env.MCP_SERVER_VERSION || '1.0.7',
+      mcpServerVersion: process.env.MCP_SERVER_VERSION || '1.0.8',
       defaultTemplate: process.env.DEFAULT_TEMPLATE || 'html',
       defaultChannel: process.env.DEFAULT_CHANNEL || 'wechat',
       debug: process.env.DEBUG === 'true' || process.env.NODE_ENV === 'development'

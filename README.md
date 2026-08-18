@@ -383,7 +383,7 @@ npm run watch
 | `PUSHPLUS_BASE_URL` | API 根地址 | https://www.pushplus.plus | ❌ |
 | `PUSHPLUS_OPEN_API_PREFIX` | 开放接口前缀（发送不走此前缀） | /api | ❌ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.7 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.8 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |

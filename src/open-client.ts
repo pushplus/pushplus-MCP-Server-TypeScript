@@ -68,7 +68,7 @@ export class OpenApiClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'pushplus-mcp-server/1.0.7'
+        'User-Agent': 'pushplus-mcp-server/1.0.8'
       },
       body: JSON.stringify({
         token: this.token,
@@ -110,7 +110,7 @@ export class OpenApiClient {
     const url = this.buildUrl(path, options.query);
 
     const headers: Record<string, string> = {
-      'User-Agent': 'pushplus-mcp-server/1.0.7',
+      'User-Agent': 'pushplus-mcp-server/1.0.8',
       'access-key': accessKey
     };
 
