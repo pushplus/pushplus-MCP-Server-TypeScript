@@ -266,8 +266,8 @@ pushplus-mcp --test
 | message | `open_message_list` / `open_message_send_result` / `open_message_delete` |
 | token | `open_token_list` / `open_token_add` / `open_token_edit` / `open_token_delete` |
 | topic | `open_topic_list` / `open_topic_add` / `open_topic_detail` 等 |
-| topicUser | `open_topic_user_subscriber_list` 等 |
-| friend | `open_friend_list` / `open_friend_delete` 等 |
+| topicUser | `open_topic_user_subscriber_list` / `open_topic_user_add_blacklist` 等 |
+| friend | `open_friend_list` / `open_friend_add_blacklist` 等 |
 | webhook | `open_webhook_list` / `open_webhook_add` 等 |
 | setting | `open_setting_list_user_default` 等 |
 | pre | `open_pre_list` / `open_pre_test` 等 |

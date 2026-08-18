@@ -80,4 +80,66 @@ export function registerFriendTools(server: McpServer, client: OpenApiClient): v
     async ({ id, remark }) =>
       runOpenTool(client, () => client.post('/open/friend/editRemark', { id, remark }))
   );
+
+  server.registerTool(
+    'open_friend_add_blacklist',
+    {
+      title: '将好友加入黑名单',
+      description: [
+        'POST /open/friend/addBlacklist - 高风险：将好友加入黑名单。',
+        '加入后将解除双方好友关系，对方无法再添加你。不能将自己加入黑名单，仅可将已有好友加入黑名单。',
+        '请求(url): friendId(好友id,必填；来自好友列表 friendId)。',
+        `${RESULT_WRAP}`
+      ].join(' '),
+      inputSchema: {
+        friendId: z.number().describe('好友id（好友列表的 friendId 字段）')
+      }
+    },
+    async ({ friendId }) =>
+      runOpenTool(client, () =>
+        client.request('/open/friend/addBlacklist', { method: 'POST', query: { friendId } })
+      )
+  );
+
+  server.registerTool(
+    'open_friend_blacklist_list',
+    {
+      title: '好友黑名单列表',
+      description: [
+        'POST /open/friend/blacklistList - 获取好友黑名单列表。',
+        PAGE_REQ,
+        `${RESULT_WRAP} ${PAGE_RESP}`,
+        'list 项: id(黑名单记录ID,解除黑名单时使用), friendId(被拉黑好友ID),',
+        'nickName, headImgUrl, createTime(拉黑时间)。'
+      ].join(' '),
+      inputSchema: {
+        current: z.number().int().optional().describe('当前所在分页数，默认1'),
+        pageSize: z.number().int().optional().describe('每页大小，默认20，最大50')
+      }
+    },
+    async ({ current, pageSize }) =>
+      runOpenTool(client, () =>
+        client.post('/open/friend/blacklistList', pageBody({ current, pageSize }))
+      )
+  );
+
+  server.registerTool(
+    'open_friend_remove_blacklist',
+    {
+      title: '解除好友黑名单',
+      description: [
+        'POST /open/friend/removeBlacklist - 高风险：解除好友黑名单。',
+        '解除后不会自动恢复好友关系，需重新扫码添加。',
+        '请求(url): id(黑名单记录ID,必填；来自黑名单列表 id)。',
+        `${RESULT_WRAP}`
+      ].join(' '),
+      inputSchema: {
+        id: z.number().describe('黑名单记录ID（黑名单列表的 id 字段）')
+      }
+    },
+    async ({ id }) =>
+      runOpenTool(client, () =>
+        client.request('/open/friend/removeBlacklist', { method: 'POST', query: { id } })
+      )
+  );
 }

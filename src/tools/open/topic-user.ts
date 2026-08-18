@@ -68,4 +68,71 @@ export function registerTopicUserTools(server: McpServer, client: OpenApiClient)
     async ({ id, remark }) =>
       runOpenTool(client, () => client.post('/open/topicUser/editRemark', { id, remark }))
   );
+
+  server.registerTool(
+    'open_topic_user_add_blacklist',
+    {
+      title: '将订阅人加入黑名单',
+      description: [
+        'POST /open/topicUser/addBlacklist - 高风险：将订阅人加入黑名单。',
+        '加入后将移出群组，对方无法再加入该群组。积分群组不支持黑名单。不能将自己加入黑名单。',
+        '请求(url): topicRelationId(用户编号,必填；来自订阅人列表 id)。',
+        `${RESULT_WRAP}`
+      ].join(' '),
+      inputSchema: {
+        topicRelationId: z.number().describe('用户编号（订阅人列表的 id 字段）')
+      }
+    },
+    async ({ topicRelationId }) =>
+      runOpenTool(client, () =>
+        client.request('/open/topicUser/addBlacklist', {
+          method: 'POST',
+          query: { topicRelationId }
+        })
+      )
+  );
+
+  server.registerTool(
+    'open_topic_user_blacklist_list',
+    {
+      title: '订阅人黑名单列表',
+      description: [
+        'POST /open/topicUser/blacklistList - 获取群组订阅人黑名单列表。',
+        '积分群组不支持黑名单。',
+        `${PAGE_REQ} params.topicId(群组编号,必填)。`,
+        `${RESULT_WRAP} ${PAGE_RESP}`,
+        'list 项: id(黑名单记录ID,解除黑名单时使用), userId(被拉黑用户ID),',
+        'nickName, openId, headImgUrl, createTime(拉黑时间)。'
+      ].join(' '),
+      inputSchema: {
+        topicId: z.number().describe('群组编号，必填'),
+        current: z.number().int().optional().describe('当前所在分页数，默认1'),
+        pageSize: z.number().int().optional().describe('每页大小，默认20，最大50')
+      }
+    },
+    async ({ topicId, current, pageSize }) =>
+      runOpenTool(client, () =>
+        client.post('/open/topicUser/blacklistList', pageBody({ current, pageSize, params: { topicId } }))
+      )
+  );
+
+  server.registerTool(
+    'open_topic_user_remove_blacklist',
+    {
+      title: '解除订阅人黑名单',
+      description: [
+        'POST /open/topicUser/removeBlacklist - 高风险：解除订阅人黑名单。',
+        '解除后不会自动恢复群组订阅，对方可重新加入该群组。',
+        '请求(url): id(黑名单记录ID,必填；来自黑名单列表 id)。',
+        `${RESULT_WRAP}`
+      ].join(' '),
+      inputSchema: {
+        id: z.number().describe('黑名单记录ID（黑名单列表的 id 字段）')
+      }
+    },
+    async ({ id }) =>
+      runOpenTool(client, () =>
+        client.request('/open/topicUser/removeBlacklist', { method: 'POST', query: { id } })
+      )
+  );
 }
