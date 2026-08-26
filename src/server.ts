@@ -100,7 +100,7 @@ export class PushPlusMcpServer {
           to: z.string().optional().describe('好友令牌/企微用户id，多人用逗号隔开'),
           pre: z.string().optional().describe('预处理编码，仅供会员使用'),
           webhook: z.string().optional().describe('第三方webhook编码（非URL）'),
-          option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价'),
+          option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填发给自己，填群配置编码发到对应QQ群'),
           callbackUrl: z.string().optional().describe('消息回调地址'),
           timestamp: z.union([z.string(), z.number()]).optional().describe('毫秒时间戳，过期则不发送'),
           pushId: z.string().optional().describe('form/doc/excel/webdiff 模板必填的详情页ID')
@@ -460,7 +460,12 @@ export class PushPlusMcpServer {
           voice: { description: '语音推送', note: '需要绑定手机号' },
           extension: { description: '浏览器插件推送' },
           app: { description: 'App推送', note: '需要先登录APP' },
-          clawbot: { description: '微信ClawBot推送', note: '需要配置ClawBot' }
+          clawbot: { description: '微信ClawBot推送', note: '需要配置ClawBot' },
+          qq: {
+            description: 'QQ机器人推送；不填option发给自己，option填群配置编码则发到对应QQ群',
+            note: '需要先绑定QQ机器人；发到群还需新增群配置。建议template用txt或markdown',
+            requires: ['发到QQ群时需 option（群配置编码）']
+          }
         };
 
         const channels = {

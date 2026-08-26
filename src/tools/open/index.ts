@@ -12,6 +12,7 @@ import { registerSettingTools } from './setting.js';
 import { registerPreTools } from './pre.js';
 import { registerChannelTools } from './channel.js';
 import { registerClawBotTools } from './clawbot.js';
+import { registerQqBotTools } from './qqbot.js';
 import { registerFileTools } from './file.js';
 import { registerPayTools } from './pay.js';
 
@@ -28,6 +29,7 @@ export function registerAllOpenTools(server: McpServer, client: OpenApiClient): 
   registerPreTools(server, client);
   registerChannelTools(server, client);
   registerClawBotTools(server, client);
+  registerQqBotTools(server, client);
   registerFileTools(server, client);
   registerPayTools(server, client);
 }

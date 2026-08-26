@@ -31,7 +31,8 @@ export const CHANNEL_TYPES = [
   'voice',
   'extension',
   'app',
-  'clawbot'
+  'clawbot',
+  'qq'
 ] as const;
 
 export const PUSH_ID_TEMPLATES = new Set(['form', 'doc', 'excel', 'webdiff']);
@@ -58,10 +59,10 @@ export const PushMessageSchema = z.object({
   topic: z.string().optional().describe('群组编码，不填仅发送给自己；与to互斥，topic优先'),
   template: TemplateEnumSchema.default('html').describe('发送消息模板'),
   channel: ChannelEnumSchema.default('wechat').describe('发送渠道'),
-  to: z.string().optional().describe('好友令牌，微信公众号渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开'),
+  to: z.string().optional().describe('好友令牌，微信公众号渠道、QQ机器人渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开'),
   pre: z.string().optional().describe('预处理编码，仅供会员使用'),
   webhook: z.string().optional().describe('第三方webhook编码（非URL）'),
-  option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价'),
+  option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填则发给自己，填群配置编码则发到对应QQ群'),
   callbackUrl: z.string().optional().describe('消息回调地址'),
   timestamp: z.union([z.string(), z.number()]).optional().describe('毫秒时间戳，服务器时间大于此值则不发送'),
   pushId: z.string().optional().describe('push类模板详情页ID；form/doc/excel/webdiff模板必填')
@@ -83,7 +84,7 @@ export const BatchSendMessageSchema = z.object({
   title: z.string().max(200, '消息标题最大长度200字符').optional().describe('消息标题'),
   content: z.string().describe('具体消息内容，根据不同template支持不同格式'),
   icon: z.string().optional().describe('消息图标'),
-  channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开，最多5个。如："wechat,webhook,mail"'),
+  channel: z.string().default('wechat').describe('发送渠道，多个用逗号隔开，最多5个。如："wechat,webhook,qq"'),
   option: z.string().optional().describe('渠道配置参数(原webhook参数)，多个渠道时用逗号隔开，与channel一一对应'),
   topic: z.string().optional().describe('群组编码，不填仅发送给自己；channel为webhook时无效'),
   template: TemplateEnumSchema.default('html').describe('发送模板'),
@@ -119,7 +120,7 @@ export interface BatchSendResponse {
   data: BatchSendChannelResult[];
 }
 
-const USER_AGENT = 'pushplus-mcp-server/1.0.8';
+const USER_AGENT = 'pushplus-mcp-server/1.0.9';
 
 /**
  * pushplus API 客户端类

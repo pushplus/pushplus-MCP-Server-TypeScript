@@ -18,7 +18,7 @@
 ## 功能特性
 
 - 🚀 **完整的 MCP 支持**: 实现 Model Context Protocol 规范
-- 📱 **多渠道推送**: 支持微信、邮箱、短信、企业微信等多种推送渠道
+- 📱 **多渠道推送**: 支持微信、QQ机器人、邮箱、短信、企业微信等多种推送渠道
 - 🎨 **多种消息格式**: 支持 HTML、Markdown、纯文本、JSON 等格式
 - 🔧 **灵活配置**: 支持环境变量配置，便于部署
 - 🛡️ **类型安全**: 使用 TypeScript 开发，提供完整的类型支持
@@ -273,6 +273,7 @@ pushplus-mcp --test
 | pre | `open_pre_list` / `open_pre_test` 等 |
 | channel | `open_mail_list` / `open_mp_list` / `open_cp_list` |
 | clawBot | `open_clawbot_bot_info` / `open_clawbot_get_msg` 等 |
+| qqBot | `open_qqbot_get_bind_link` / `open_qqbot_bot_info` / `open_qqbot_group_list` / `open_qqbot_list` / `open_qqbot_add` 等 |
 | file/image | `open_file_upload_image` / `open_user_image_list` |
 | pay | `open_pay_transfer_order`（高风险） |
 
@@ -327,6 +328,7 @@ pushplus-mcp --test
 | `extension` | 浏览器插件推送 | |
 | `app` | App推送 | 需要先登录App |
 | `clawbot` | 微信ClawBot推送 | 需要配置ClawBot |
+| `qq` | QQ机器人推送 | 需先绑定；不填 `option` 发给自己，填群配置编码发到对应QQ群 |
 
 ## 🛠️ 命令行工具
 
@@ -383,7 +385,7 @@ npm run watch
 | `PUSHPLUS_BASE_URL` | API 根地址 | https://www.pushplus.plus | ❌ |
 | `PUSHPLUS_OPEN_API_PREFIX` | 开放接口前缀（发送不走此前缀） | /api | ❌ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.8 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.9 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |
