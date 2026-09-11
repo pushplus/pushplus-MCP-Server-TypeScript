@@ -32,6 +32,18 @@ export async function runOpenTool(
   }
 }
 
+export function parseJsonField(value?: string): unknown {
+  if (value == null || value.trim() === '') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    return trimmed;
+  }
+}
+
 export function pageBody(args: {
   current?: number;
   pageSize?: number;

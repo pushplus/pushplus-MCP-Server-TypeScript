@@ -271,6 +271,8 @@ pushplus-mcp --test
 | webhook | `open_webhook_list` / `open_webhook_add` 等 |
 | setting | `open_setting_list_user_default` 等 |
 | pre | `open_pre_list` / `open_pre_test` 等 |
+| forwardRule | `open_forward_rule_list` / `open_forward_rule_add` / `open_forward_rule_test` / `open_forward_rule_save_setting` 等 |
+| forwardLog | `open_forward_log_list` / `open_forward_log_detail` |
 | channel | `open_mail_list` / `open_mp_list` / `open_cp_list` |
 | clawBot | `open_clawbot_bot_info` / `open_clawbot_get_msg` 等 |
 | qqBot | `open_qqbot_get_bind_link` / `open_qqbot_bot_info` / `open_qqbot_group_list` / `open_qqbot_list` / `open_qqbot_add` 等 |
@@ -385,7 +387,7 @@ npm run watch
 | `PUSHPLUS_BASE_URL` | API 根地址 | https://www.pushplus.plus | ❌ |
 | `PUSHPLUS_OPEN_API_PREFIX` | 开放接口前缀（发送不走此前缀） | /api | ❌ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.9 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.10 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |

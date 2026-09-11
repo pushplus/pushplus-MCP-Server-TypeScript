@@ -10,6 +10,8 @@ import { registerFriendTools } from './friend.js';
 import { registerWebhookTools } from './webhook.js';
 import { registerSettingTools } from './setting.js';
 import { registerPreTools } from './pre.js';
+import { registerForwardRuleTools } from './forward-rule.js';
+import { registerForwardLogTools } from './forward-log.js';
 import { registerChannelTools } from './channel.js';
 import { registerClawBotTools } from './clawbot.js';
 import { registerQqBotTools } from './qqbot.js';
@@ -27,6 +29,8 @@ export function registerAllOpenTools(server: McpServer, client: OpenApiClient): 
   registerWebhookTools(server, client);
   registerSettingTools(server, client);
   registerPreTools(server, client);
+  registerForwardRuleTools(server, client);
+  registerForwardLogTools(server, client);
   registerChannelTools(server, client);
   registerClawBotTools(server, client);
   registerQqBotTools(server, client);
