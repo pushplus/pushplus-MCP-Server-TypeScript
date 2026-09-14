@@ -121,7 +121,7 @@ export interface BatchSendResponse {
   data: BatchSendChannelResult[];
 }
 
-const USER_AGENT = 'pushplus-mcp-server/1.0.10';
+const USER_AGENT = 'pushplus-mcp-server/1.0.11';
 
 /**
  * pushplus API 客户端类
