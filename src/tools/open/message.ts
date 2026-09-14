@@ -12,14 +12,14 @@ export function registerMessageTools(server: McpServer, client: OpenApiClient): 
         'POST /open/message/list - 分页查询消息列表。',
         PAGE_REQ,
         `${RESULT_WRAP} ${PAGE_RESP}`,
-        'list 项: channel(wechat/mail/cp/webhook), messageType(1一对一/2一对多),',
+        'list 项: channel(wechat/mail/cp/webhook/clawbot/cmcc/qq等), messageType(1一对一/2一对多),',
         'shortCode(消息短链码,可查发送结果), title(标题), topicName(群组名称,一对多才有), updateTime(更新时间)。'
       ].join(' '),
       inputSchema: {
         current: z.number().int().optional().describe('当前所在分页数，默认1'),
         pageSize: z.number().int().optional().describe('每页大小，默认20，最大50'),
         isRead: z.number().int().optional().describe('是否已读（扩展筛选，可选）'),
-        channel: z.string().optional().describe('发送渠道筛选，如 wechat/mail/cp/webhook'),
+        channel: z.string().optional().describe('发送渠道筛选，如 wechat/mail/cp/webhook/clawbot/cmcc/qq'),
         messageType: z.number().int().optional().describe('消息类型；1-一对一，2-一对多')
       }
     },

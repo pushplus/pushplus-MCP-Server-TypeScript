@@ -57,7 +57,9 @@ export function registerUserTools(server: McpServer, client: OpenApiClient): voi
         '请求参数: 无。',
         `${RESULT_WRAP}`,
         'data: wechatSendCount(微信公众号), cpSendCount(企业微信应用),',
-        'webhookSendCount(webhook), mailSendCount(邮件)。'
+        'webhookSendCount(webhook), mailSendCount(邮件), smsSendCount(短信),',
+        'extensionCount(插件), voiceSendCount(语音), appSendCount(App),',
+        'clawBotSendCount(微信ClawBot), qqBotSendCount(QQ机器人), cmccSendCount(新消息ClawBot)。'
       ].join(' ')
     },
     async () => runOpenTool(client, () => client.get('/open/user/sendCount'))

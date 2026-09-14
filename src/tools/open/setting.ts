@@ -4,7 +4,7 @@ import { OpenApiClient } from '../../open-client.js';
 import { PAGE_REQ, PAGE_RESP, RESULT_WRAP, pageBody, runOpenTool } from './helpers.js';
 
 const CHANNEL_ENUM =
-  '渠道编码；wechat微信公众号,cp企业微信应用,webhook第三方webhook,mail邮件,sms短信,voice语音,extension插件';
+  '渠道编码；wechat微信公众号,cp企业微信应用,webhook第三方webhook,mail邮件,sms短信,voice语音,extension插件,clawbot微信ClawBot,cmcc新消息ClawBot,qq QQ机器人';
 
 export function registerSettingTools(server: McpServer, client: OpenApiClient): void {
   server.registerTool(

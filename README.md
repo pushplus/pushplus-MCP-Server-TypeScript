@@ -275,6 +275,7 @@ pushplus-mcp --test
 | forwardLog | `open_forward_log_list` / `open_forward_log_detail` |
 | channel | `open_mail_list` / `open_mp_list` / `open_cp_list` |
 | clawBot | `open_clawbot_bot_info` / `open_clawbot_get_msg` 等 |
+| cmcc | `open_cmcc_bind` / `open_cmcc_info` / `open_cmcc_unbind` / `open_cmcc_test` |
 | qqBot | `open_qqbot_get_bind_link` / `open_qqbot_bot_info` / `open_qqbot_group_list` / `open_qqbot_list` / `open_qqbot_add` 等 |
 | file/image | `open_file_upload_image` / `open_user_image_list` |
 | pay | `open_pay_transfer_order`（高风险） |
@@ -330,6 +331,7 @@ pushplus-mcp --test
 | `extension` | 浏览器插件推送 | |
 | `app` | App推送 | 需要先登录App |
 | `clawbot` | 微信ClawBot推送 | 需要配置ClawBot |
+| `cmcc` | 新消息ClawBot推送 | 仅支持中国移动；需先绑定 Channel API Key；不填 `option` |
 | `qq` | QQ机器人推送 | 需先绑定；不填 `option` 发给自己，填群配置编码发到对应QQ群 |
 
 ## 🛠️ 命令行工具

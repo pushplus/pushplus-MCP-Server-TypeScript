@@ -461,6 +461,10 @@ export class PushPlusMcpServer {
           extension: { description: '浏览器插件推送' },
           app: { description: 'App推送', note: '需要先登录APP' },
           clawbot: { description: '微信ClawBot推送', note: '需要配置ClawBot' },
+          cmcc: {
+            description: '新消息ClawBot推送；仅支持中国移动用户',
+            note: '需先绑定 Channel API Key；不填 option。建议 template 用 txt'
+          },
           qq: {
             description: 'QQ机器人推送；不填option发给自己，option填群配置编码则发到对应QQ群',
             note: '需要先绑定QQ机器人；发到群还需新增群配置。建议template用txt或markdown',

@@ -32,6 +32,7 @@ export const CHANNEL_TYPES = [
   'extension',
   'app',
   'clawbot',
+  'cmcc',
   'qq'
 ] as const;
 

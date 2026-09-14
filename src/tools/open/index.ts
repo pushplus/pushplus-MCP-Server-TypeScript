@@ -14,6 +14,7 @@ import { registerForwardRuleTools } from './forward-rule.js';
 import { registerForwardLogTools } from './forward-log.js';
 import { registerChannelTools } from './channel.js';
 import { registerClawBotTools } from './clawbot.js';
+import { registerCmccTools } from './cmcc.js';
 import { registerQqBotTools } from './qqbot.js';
 import { registerFileTools } from './file.js';
 import { registerPayTools } from './pay.js';
@@ -33,6 +34,7 @@ export function registerAllOpenTools(server: McpServer, client: OpenApiClient): 
   registerForwardLogTools(server, client);
   registerChannelTools(server, client);
   registerClawBotTools(server, client);
+  registerCmccTools(server, client);
   registerQqBotTools(server, client);
   registerFileTools(server, client);
   registerPayTools(server, client);
