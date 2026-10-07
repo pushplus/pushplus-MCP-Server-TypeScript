@@ -276,7 +276,7 @@ pushplus-mcp --test
 | channel | `open_mail_list` / `open_mp_list` / `open_cp_list` |
 | clawBot | `open_clawbot_bot_info` / `open_clawbot_get_msg` 等 |
 | cmcc | `open_cmcc_bind` / `open_cmcc_info` / `open_cmcc_unbind` / `open_cmcc_test` |
-| qqBot | `open_qqbot_get_bind_link` / `open_qqbot_bot_info` / `open_qqbot_group_list` / `open_qqbot_list` / `open_qqbot_add` 等 |
+| qqBot | `open_qqbot_my_bots` / `open_qqbot_get_bind_link` / `open_qqbot_bot_info` / `open_qqbot_set_default` / `open_qqbot_group_list` / `open_qqbot_list` / `open_qqbot_add` / `open_qqbot_custom_bot_preview` / `open_qqbot_custom_bot_add` / `open_qqbot_custom_bot_delete` 等（绑定类接口支持 `botAppId` 指定自有机器人） |
 | file/image | `open_file_upload_image` / `open_user_image_list` |
 | pay | `open_pay_transfer_order`（高风险） |
 
@@ -332,7 +332,7 @@ pushplus-mcp --test
 | `app` | App推送 | 需要先登录App |
 | `clawbot` | 微信ClawBot推送 | 需要配置ClawBot |
 | `cmcc` | 新消息ClawBot推送 | 仅支持中国移动；需先绑定 Channel API Key；不填 `option` |
-| `qq` | QQ机器人推送 | 需先绑定；不填 `option` 发给自己，填群配置编码发到对应QQ群 |
+| `qq` | QQ机器人推送 | 需先绑定（支持官方机器人和自有机器人）；不填 `option` 由默认机器人发给自己，填配置编码发到对应QQ群或用指定机器人发给自己 |
 
 ## 🛠️ 命令行工具
 
@@ -389,7 +389,7 @@ npm run watch
 | `PUSHPLUS_BASE_URL` | API 根地址 | https://www.pushplus.plus | ❌ |
 | `PUSHPLUS_OPEN_API_PREFIX` | 开放接口前缀（发送不走此前缀） | /api | ❌ |
 | `MCP_SERVER_NAME` | MCP 服务器名称 | pushplus-mcp-server | ❌ |
-| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.0.11 | ❌ |
+| `MCP_SERVER_VERSION` | MCP 服务器版本 | 1.1.0 | ❌ |
 | `DEFAULT_TEMPLATE` | 默认消息模板 | html | ❌ |
 | `DEFAULT_CHANNEL` | 默认推送渠道 | wechat | ❌ |
 | `DEBUG` | 调试模式 | false | ❌ |

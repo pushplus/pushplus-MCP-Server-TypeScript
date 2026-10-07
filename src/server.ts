@@ -100,7 +100,7 @@ export class PushPlusMcpServer {
           to: z.string().optional().describe('好友令牌/企微用户id，多人用逗号隔开'),
           pre: z.string().optional().describe('预处理编码，仅供会员使用'),
           webhook: z.string().optional().describe('第三方webhook编码（非URL）'),
-          option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填发给自己，填群配置编码发到对应QQ群'),
+          option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填由默认机器人发给自己，填配置编码发到对应QQ群或用指定机器人发给自己'),
           callbackUrl: z.string().optional().describe('消息回调地址'),
           timestamp: z.union([z.string(), z.number()]).optional().describe('毫秒时间戳，过期则不发送'),
           pushId: z.string().optional().describe('form/doc/excel/webdiff 模板必填的详情页ID')
@@ -466,9 +466,9 @@ export class PushPlusMcpServer {
             note: '需先绑定 Channel API Key；不填 option。建议 template 用 txt'
           },
           qq: {
-            description: 'QQ机器人推送；不填option发给自己，option填群配置编码则发到对应QQ群',
-            note: '需要先绑定QQ机器人；发到群还需新增群配置。建议template用txt或markdown',
-            requires: ['发到QQ群时需 option（群配置编码）']
+            description: 'QQ机器人推送（官方或自有机器人）；不填option由默认机器人发给自己，option填配置编码则发到对应QQ群或用指定机器人发给自己',
+            note: '需要先绑定QQ机器人；发到群或指定机器人还需新增配置。建议template用txt或markdown',
+            requires: ['发到QQ群或指定机器人时需 option（配置编码）']
           }
         };
 

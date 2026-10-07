@@ -63,7 +63,7 @@ export const PushMessageSchema = z.object({
   to: z.string().optional().describe('好友令牌，微信公众号渠道、QQ机器人渠道填写好友令牌，企业微信渠道填写企业微信用户id。多人用逗号隔开'),
   pre: z.string().optional().describe('预处理编码，仅供会员使用'),
   webhook: z.string().optional().describe('第三方webhook编码（非URL）'),
-  option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填则发给自己，填群配置编码则发到对应QQ群'),
+  option: z.string().optional().describe('渠道配置参数(原webhook参数)，与webhook等价；qq渠道不填则由默认机器人发给自己，填配置编码则发到对应QQ群或用指定机器人发给自己'),
   callbackUrl: z.string().optional().describe('消息回调地址'),
   timestamp: z.union([z.string(), z.number()]).optional().describe('毫秒时间戳，服务器时间大于此值则不发送'),
   pushId: z.string().optional().describe('push类模板详情页ID；form/doc/excel/webdiff模板必填')
@@ -121,7 +121,7 @@ export interface BatchSendResponse {
   data: BatchSendChannelResult[];
 }
 
-const USER_AGENT = 'pushplus-mcp-server/1.0.11';
+const USER_AGENT = 'pushplus-mcp-server/1.1.0';
 
 /**
  * pushplus API 客户端类
